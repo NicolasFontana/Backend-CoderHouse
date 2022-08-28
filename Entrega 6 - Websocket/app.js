@@ -9,26 +9,32 @@ const PORT = 8000;
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+
+app.use(express.static("views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const router = Router();
-const productos = new Contenedor(__dirname + "/data/productos.json");
-
 app.use("/api/productos", router);
-app.use(express.static("./views/layout"));
+
 app.set('view engine', 'ejs');
+app.set("views", "./views");
+
+const productos = new Contenedor(__dirname + "/data/productos.json");
 
 const messages = []
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log('Un cliente se ha conectado')
-
   socket.emit('messages', messages)
 
   socket.on('new-message', data => {
     messages.push(data)
 
     io.sockets.emit('messages', messages)
+  })
+  socket.on('update', () => {
+    io.sockets.emit('productos', productos)
   })
 })
 
@@ -48,7 +54,7 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   let obj = req.body;
   productos.save(obj);
-  return res.redirect('/productos');
+  return res.json(productos.getAll())
 });
 
 router.put("/:id", (req, res) => {
