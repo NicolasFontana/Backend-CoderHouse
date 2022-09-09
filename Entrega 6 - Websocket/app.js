@@ -34,6 +34,7 @@ io.on('connection', async (socket) => {
     io.sockets.emit('messages', messages)
   })
   socket.on('update', () => {
+    console.log(productos)
     io.sockets.emit('productos', productos)
   })
 })

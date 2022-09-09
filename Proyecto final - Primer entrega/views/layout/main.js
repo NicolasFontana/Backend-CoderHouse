@@ -35,8 +35,8 @@ window.onload = () => {
   }
 
   // Agregar productos
-
   socket.on('productos', listProd => {
+    console.log('Entro', listProd)
     loadProds(listProd)
   })
 
@@ -53,11 +53,10 @@ window.onload = () => {
     .then( res => res.json())
     .then( res => {
       formAddProduct.reset()
-      socket.emit('update', 'ok')
+      socket.emit('update', res)
     })
     .catch( error => console.log(error))
   })
-
 
   async function loadProds(productos) {
     fetch('partials/products-list.ejs')

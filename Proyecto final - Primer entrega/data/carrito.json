@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "products": [
+      {
+        "title": "iPhone 13 Pro 128gb - Graphite",
+        "price": "388730",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/pixel-images.appspot.com/o/web%2F60b65a0461536e11102416db614f434186c5b60021149115iPhone%2013%20Pro%20128GB%20-%20Graphite?alt=media&token=286ec3ff-bb6c-418d-81d4-197fc6a3a5de",
+        "id": 2,
+        "stock": null,
+        "timeStamp": "09/09/2022 10:24:12"
+      },
+      {
+        "name": "hola",
+        "price": "123",
+        "stock": 1,
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/pixel-images.appspot.com/o/web%2F60b65a0461536e11102416db614f434186c5b60021149115iPhone%2013%20Pro%20128GB%20-%20Blue?alt=media&token=7b703afa-7c05-4a29-bcaf-961e4f916268",
+        "id": 12,
+        "timeStamp": "09/09/2022 10:25:51"
+      }
+    ],
+    "timestamp": "09/09/2022 10:16:06"
+  }
+]
