@@ -1,0 +1,67 @@
+// Consola 1
+* mongod --dbpath "C:\Users\nicof\Desktop\Backend-CoderHouse\Entrega 8 - MongoDB\db"
+
+// Consola 2
+* mongo
+* use ecommerce
+* db.createCollection('mensajes')
+* db.createCollection('productos')
+
+// Agregar documentos a las colecciones
+* db.mensajes.insertMany([{user: "Juan", text:"Holaa"},{user: "Nicolas", text:"Todo bien?"},{user: "Juan", text:"Todo ok"}])
+
+* db.productos.insertMany([{"title":"Vaso","price":890,"thumbnail":"https://cdn2.iconfinder.com/data/icons/spring-30/30/Ice_Tea-256.png","id":1},{"title":"Celular","price":1200,"thumbnail":"https://cdn3.iconfinder.com/data/icons/geest-women-kit/128/bag_icons-06-256.png","id":2},{"title":"Lentes","price":3300,"thumbnail":"https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png","id":3},{"title":"Billetera","price":5000,"thumbnail":"https://cdn2.iconfinder.com/data/icons/round-varieties/60/Rounded_-_High_Ultra_Colour11_-_Wallet-256.png","id":4},{"title":"Escuadra","price":460,"thumbnail":"https://cdn3.iconfinder.com/data/icons/design-106/100/triangle-ruler-design-graphic-tools-wooden-triangle-squad-ruler-drawing-drafting-256.png","id":5}])
+
+* db.productos.insert({"title": "Auriculares in-ear gamer inalámbricos Xiaomi Redmi AirDots 2 negro","price":3240,"thumbnail":"https://http2.mlstatic.com/D_NQ_NP_827274-MLA44347499942_122020-O.webp"})
+
+// Listar documentos de las colecciones
+
+* db.mensajes.find({})
+* db.productos.find({})
+
+// Cantidad de documentos en cada colección
+
+* db.mensajes.estimatedDocumentCount()
+* db.productos.estimatedDocumentCount()
+
+// Agregar un producto más en la colección de productos
+* db.productos.insert({"title": "Auriculares in-ear gamer inalámbricos Xiaomi Redmi AirDots 2 negro","price":3240,"thumbnail":"https://http2.mlstatic.com/D_NQ_NP_827274-MLA44347499942_122020-O.webp"})
+
+// Listar los productos con precio menor a 1000 pesos.
+* db.productos.find({"price": {$lt: 1000}})
+
+// Listar los productos con precio entre los 1000 a 3000 pesos
+* db.productos.find({$and: [{"price": {$gte: 1000}}, {"price": {$lte: 3000}}]})
+
+// Listar los productos con precio mayor a 3000 pesos
+* db.productos.find({"price": {$gt: 3000}})
+
+// El nombre del tercer producto más barato --> no sé como taer solo el tercero
+* db.productos.find().sort({"price": 1}).skip(2).limit(1)
+
+// Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
+* db.productos.updateMany({}, {$set: {"stock": 100}})
+
+// Cambiar el stock a cero de los productos con precios mayores a 4000 pesos
+* db.productos.updateMany({"price": {$gt: 4000}}, {$set: {"stock": 0}})
+
+//Borrar los productos con precio menor a 1000 pesos
+* db.productos.deleteMany({"price": {$lt: 1000}})
+
+// Crear un usuario 'pepe' clave: 'asd456' que sólo pueda leer la base de datos ecommerce. Verificar que pepe no pueda cambiar la información.
+
+// Consola 1 - Inicializo el sv con la función --auth
+* mongod --dbpath "C:\Users\nicof\Desktop\Backend-CoderHouse\Entrega 8 - MongoDB\db"
+// Consola 2 - Creo el usuario con la función "read"
+* db.createUser({user: "pepe", pwd: "asd456", roles: [{ role: "read", db: "ecommerce"}]})
+// Consola 2 - Entro logueado con el nuevo usuario
+* mongo -u pepe -p asd456 -authenticationDatabase ecommerce
+// Consola 2 - Verifico que solo sea lectura
+* use ecommerce
+* db.productos.find({}) // Funciona
+* db.productos.insert({"title":"Lapicero","price":1350})
+
+db.createUser({user: "myUserAdmin",pwd: "abc123",roles: [{ role: "userAdminAnyDatabase", db: "admin" }]})
+db.createUser({user: "myTester",pwd: "xyz123",roles: [{ role: "readWrite", db: "test" },{ role: "read", db: "reporting" }]})
+
+mongo -u "myTester" -p "xyz123" --authenticationDatabase "test"
